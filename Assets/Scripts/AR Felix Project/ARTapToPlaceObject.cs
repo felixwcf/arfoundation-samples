@@ -2,25 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.Experimental.XR;
+//using UnityEngine.Experimental.XR
+
 using UnityEngine.XR.ARSubsystems;
 using System;
 
 public class ARTapToPlaceObject : MonoBehaviour
 {
     public GameObject placementIndicator;
-    public GameObject objectToPlace;
+    public GameObject DieselGeneratorModel;
 
-    //ARSessionOrigin arOrigin;
-    ARRaycastManager arRaycastManager;
-    Pose placementPose;
-    bool isPlacementPoseValid;
-    bool hasObjectPlaced;
+    //private ARSessionOrigin arOrigin;
+    private Pose PlacementPose;
+    private ARRaycastManager aRRaycastManager;
+    private bool placementPoseIsValid = false;
+
+    private bool hasAlreadyPlaceObject;
 
     void Start()
     {
         //arOrigin = FindObjectOfType<ARSessionOrigin>();
-        arRaycastManager = FindObjectOfType<ARRaycastManager>();
+        aRRaycastManager = FindObjectOfType<ARRaycastManager>();
     }
 
     void Update()
@@ -28,25 +30,24 @@ public class ARTapToPlaceObject : MonoBehaviour
         UpdatePlacementPose();
         UpdatePlacementIndicator();
 
-        if(isPlacementPoseValid && !hasObjectPlaced && Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if(placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && !hasAlreadyPlaceObject)
         {
+            hasAlreadyPlaceObject = true;
             PlaceObject();
         }
     }
 
     private void PlaceObject()
     {
-        hasObjectPlaced = true;
-
-        Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
+        Instantiate(DieselGeneratorModel, PlacementPose.position, PlacementPose.rotation);
     }
 
     private void UpdatePlacementIndicator()
     {
-        if(isPlacementPoseValid)
+        if (placementPoseIsValid)
         {
             placementIndicator.SetActive(true);
-            placementIndicator.transform.SetPositionAndRotation(placementPose.position, placementPose.rotation);
+            placementIndicator.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
         }
         else
         {
@@ -54,21 +55,21 @@ public class ARTapToPlaceObject : MonoBehaviour
         }
     }
 
-    void UpdatePlacementPose()
+    private void UpdatePlacementPose()
     {
-        var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(.5f, .5f));
+        var screenCenter = Camera.main.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
         var hits = new List<ARRaycastHit>();
-        arRaycastManager.Raycast(screenCenter, hits, TrackableType.Planes);
+        aRRaycastManager.Raycast(screenCenter, hits, TrackableType.Planes);
 
-        isPlacementPoseValid = hits.Count > 0;
-        if(isPlacementPoseValid)
+        placementPoseIsValid = hits.Count > 0;
+        if (placementPoseIsValid)
         {
-            placementPose = hits[0].pose;
+            PlacementPose = hits[0].pose;
 
-            var cameraForward = Camera.current.transform.forward; // We don't have to know how far the camera is pointing towards an object,
-            var cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z).normalized; // instead we just need to know the camera bearing (rotation).
-            placementPose.rotation = Quaternion.LookRotation(cameraBearing);
+            var cameraForward = Camera.main.transform.forward;
+            var cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
+            PlacementPose.rotation = Quaternion.LookRotation(cameraBearing);
+
         }
-        
     }
 }
