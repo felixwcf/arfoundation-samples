@@ -13,11 +13,16 @@ public class ARTapToPlaceObject : MonoBehaviour
     public GameObject DieselGeneratorModel;
 
     //private ARSessionOrigin arOrigin;
-    private Pose PlacementPose;
-    private ARRaycastManager aRRaycastManager;
-    private bool placementPoseIsValid = false;
+    Pose PlacementPose;
+    ARRaycastManager aRRaycastManager;
+    bool placementPoseIsValid = false;
 
-    private bool hasAlreadyPlaceObject;
+    bool hasAlreadyPlaceObject;
+    float rotationSpeedFactor = 0.4f;
+
+    GameObject currDispModel;
+
+    private Touch touch;
 
     void Start()
     {
@@ -35,11 +40,28 @@ public class ARTapToPlaceObject : MonoBehaviour
             hasAlreadyPlaceObject = true;
             PlaceObject();
         }
+        else if(hasAlreadyPlaceObject)
+        {
+            
+            if (Input.touchCount > 0)
+            {
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    touch = Input.GetTouch(0);
+
+                    var rotationY = Quaternion.Euler(0, -touch.deltaPosition.x * rotationSpeedFactor, 0);
+                    currDispModel.transform.rotation = rotationY * currDispModel.transform.rotation;
+                }
+            }
+        }
     }
 
     private void PlaceObject()
     {
-        Instantiate(DieselGeneratorModel, PlacementPose.position, PlacementPose.rotation);
+        currDispModel = Instantiate(DieselGeneratorModel, PlacementPose.position, PlacementPose.rotation);
+
+        // turn off placement indicator after object has been displayed
+        placementIndicator.SetActive(false);
     }
 
     private void UpdatePlacementIndicator()
