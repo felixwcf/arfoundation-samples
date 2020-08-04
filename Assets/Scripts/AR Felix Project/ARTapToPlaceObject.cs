@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.UI;
 //using UnityEngine.Experimental.XR
 
 using UnityEngine.XR.ARSubsystems;
+
 using System;
 
 public class ARTapToPlaceObject : MonoBehaviour
 {
     public GameObject placementIndicator;
     public GameObject DieselGeneratorModel;
+
+    public Text txtTest;
 
     //private ARSessionOrigin arOrigin;
     Pose PlacementPose;
@@ -37,16 +41,18 @@ public class ARTapToPlaceObject : MonoBehaviour
 
         if(placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && !hasAlreadyPlaceObject)
         {
-            hasAlreadyPlaceObject = true;
             PlaceObject();
         }
         else if(hasAlreadyPlaceObject)
         {
-            
+            if(txtTest) txtTest.text = "Waiting for gesture...";
+
             if (Input.touchCount > 0)
             {
-                if (touch.phase == TouchPhase.Moved)
+                if (Input.GetTouch(0).phase == TouchPhase.Moved)
                 {
+                    if (txtTest) txtTest.text = "Rotating object...";
+
                     touch = Input.GetTouch(0);
 
                     var rotationY = Quaternion.Euler(0, -touch.deltaPosition.x * rotationSpeedFactor, 0);
@@ -60,13 +66,15 @@ public class ARTapToPlaceObject : MonoBehaviour
     {
         currDispModel = Instantiate(DieselGeneratorModel, PlacementPose.position, PlacementPose.rotation);
 
+        hasAlreadyPlaceObject = true;
+
         // turn off placement indicator after object has been displayed
         placementIndicator.SetActive(false);
     }
 
     private void UpdatePlacementIndicator()
     {
-        if (placementPoseIsValid)
+        if (placementPoseIsValid && !hasAlreadyPlaceObject)
         {
             placementIndicator.SetActive(true);
             placementIndicator.transform.SetPositionAndRotation(PlacementPose.position, PlacementPose.rotation);
