@@ -64,6 +64,14 @@ public class ARInteraction : MonoBehaviour
             text.color = Color.white;
         }
 
+        // Show selected text in green color
         partsTexts[index].color = Color.green;
+
+        foreach (GameObject indicator in partIndicators)
+        {
+            indicator.SetActive(false);
+        }
+
+        partIndicators[index].SetActive(true);
     }
 }
