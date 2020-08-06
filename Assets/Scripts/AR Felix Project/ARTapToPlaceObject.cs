@@ -11,6 +11,9 @@ using System;
 
 public class ARTapToPlaceObject : MonoBehaviour
 {
+    public static readonly string MODEL_OBJECT_NAME = "DieselGenerator_Modified Variant";
+    public static readonly string MODEL_PARTS_INDICATORS_PARENT_OBJECT_NAME = "Generator Selection Indicators";
+
     public GameObject placementIndicator;
     public GameObject DieselGeneratorModel;
 
@@ -26,8 +29,6 @@ public class ARTapToPlaceObject : MonoBehaviour
     public static GameObject currDispModel;
 
     public ARInteraction arInteraction;
-
-    private Touch touch;
 
     void Start()
     {
@@ -48,15 +49,16 @@ public class ARTapToPlaceObject : MonoBehaviour
 
     private void PlaceObject()
     {
-        currDispModel = Instantiate(DieselGeneratorModel, PlacementPose.position, PlacementPose.rotation);
-        arInteraction.UpdateARDetailReady(currDispModel);
-
         hasAlreadyPlaceObject = true;
+
+        currDispModel = Instantiate(DieselGeneratorModel, PlacementPose.position, PlacementPose.rotation);
+        currDispModel.name = MODEL_OBJECT_NAME;
+        arInteraction.UpdateARDetailReady(currDispModel);
 
         // turn off placement indicator after object has been displayed
         placementIndicator.SetActive(false);
 
-        StartCoroutine(DestroySelf());
+        //StartCoroutine(DestroySelf());
     }
 
     private void UpdatePlacementIndicator()

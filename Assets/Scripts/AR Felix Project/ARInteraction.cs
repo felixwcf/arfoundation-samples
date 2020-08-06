@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class ARInteraction : MonoBehaviour
 {
+    [SerializeField] Text debugText;
+
     enum DieselGenerator_Part_Type
     {
         LCD_Panel = 0,
@@ -44,11 +46,11 @@ public class ARInteraction : MonoBehaviour
         sprite_dropUp = Resources.Load<Sprite>("drop-up-menu");
 
         // Test script. Comment this one when it's not being used
-        if (dieselGenerator)
-        {
-            mainARObject = dieselGenerator;
-            interactScrollView.SetActive(true);
-        }
+        //if (dieselGenerator)
+        //{
+        //    mainARObject = dieselGenerator;
+        //    interactScrollView.SetActive(true);
+        //}
     }
 
     // Update is called once per frame
@@ -72,7 +74,29 @@ public class ARInteraction : MonoBehaviour
     public void UpdateARDetailReady(GameObject _mainARObject)
     {
         mainARObject = _mainARObject;
+
+        // Assigning indicators children inside the generator into here 
+        GameObject indicatorObjects = null;
+        foreach (Transform child in mainARObject.transform)
+        {
+            if (child.gameObject.name.Equals(ARTapToPlaceObject.MODEL_PARTS_INDICATORS_PARENT_OBJECT_NAME))
+            {
+                indicatorObjects = child.gameObject;
+            }
+        }
+
+        debugText.text = "partindicators count:" + indicatorObjects.transform.childCount;
+        partIndicators = new GameObject[indicatorObjects.transform.childCount];
+        for (int i=0; i<partIndicators.Length;i++)
+        {
+            debugText.text = "-->" + indicatorObjects.transform.GetChild(i).gameObject.name;
+            partIndicators[i] = indicatorObjects.transform.GetChild(i).gameObject;
+        }
+
+        debugText.text = "partindicators count 2:" + partIndicators[0].name;
+
         interactScrollView.SetActive(true);
+        menuDropDownButton.gameObject.SetActive(true);
     }
 
     // Called from button Inspector - OnClick listener
