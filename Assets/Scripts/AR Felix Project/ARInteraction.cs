@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ARInteraction : MonoBehaviour
 {
@@ -111,18 +112,25 @@ public class ARInteraction : MonoBehaviour
         switch ((DieselGenerator_Part_Type)index)
         {
             case DieselGenerator_Part_Type.LCD_Panel:
+                mainARObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1);
                 break;
             case DieselGenerator_Part_Type.Main_Volt_Circ_Board:
+                mainARObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1);
                 break;
             case DieselGenerator_Part_Type.Generator_Fans:
+                mainARObject.transform.DOLocalRotate(new Vector3(0, -180, 0), 1);
                 break;
             case DieselGenerator_Part_Type.BU_Power_Supp_Unit:
+                mainARObject.transform.DOLocalRotate(new Vector3(0, 90, 0), 1);
                 break;
             case DieselGenerator_Part_Type.Capacitor_Circ_Board:
+                mainARObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1);
                 break;
             case DieselGenerator_Part_Type.Logic_Board:
+                mainARObject.transform.DOLocalRotate(new Vector3(0, -180, 0), 1);
                 break;
             case DieselGenerator_Part_Type.Lithium_Fuel_Cells:
+                mainARObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 1);
                 break;
         }
 

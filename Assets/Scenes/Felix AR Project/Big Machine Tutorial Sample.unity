@@ -632,12 +632,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &104951401 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 104951401, guid: 02958593781024fd6a51bee0ef710db8,
-    type: 3}
-  m_PrefabInstance: {fileID: 1842817583}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &208820572
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,7 +864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf61351aabfd4d0d84bddfe404c9ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dieselGenerator: {fileID: 104951401}
+  dieselGenerator: {fileID: 1342892982}
   interactScrollView: {fileID: 445458848}
   menuDropDownButton: {fileID: 545222214}
   partsButtons:
