@@ -5,10 +5,23 @@ using UnityEngine.UI;
 
 public class ARInteraction : MonoBehaviour
 {
+    enum DieselGenerator_Part_Type
+    {
+        LCD_Panel = 0,
+        Main_Volt_Circ_Board,
+        Generator_Fans,
+        BU_Power_Supp_Unit,
+        Capacitor_Circ_Board,
+        Logic_Board,
+        Lithium_Fuel_Cells
+    }
+
     // Test Object
     [SerializeField] GameObject dieselGenerator;            // The 3D model.
 
-    [SerializeField] GameObject interactScrollViewPanel;    // Generator parts in scroll view list.
+    [SerializeField] GameObject interactScrollView;    // Generator parts in scroll view list.
+
+    [SerializeField] Button menuDropDownButton;                 // Generator parts buttons in scroll view.
 
     [SerializeField] Button[] partsButtons;                 // Generator parts buttons in scroll view.
 
@@ -18,16 +31,22 @@ public class ARInteraction : MonoBehaviour
 
     float rotationSpeedFactor = 0.4f;     
     GameObject mainARObject;            // The 3D model.
-    Touch touch;                        
+    Touch touch;
+
+    Sprite sprite_dropDown;
+    Sprite sprite_dropUp;
 
     // Start is called before the first frame update
     void Start()
     {
+        sprite_dropDown = Resources.Load<Sprite>("drop-down-menu");
+        sprite_dropUp = Resources.Load<Sprite>("drop-up-menu");
+
         // Test script. Comment this one when it's not being used
         if (dieselGenerator)
         {
             mainARObject = dieselGenerator;
-            interactScrollViewPanel.SetActive(true);
+            interactScrollView.SetActive(true);
         }
     }
 
@@ -52,7 +71,7 @@ public class ARInteraction : MonoBehaviour
     public void UpdateARDetailReady(GameObject _mainARObject)
     {
         mainARObject = _mainARObject;
-        interactScrollViewPanel.SetActive(true);
+        interactScrollView.SetActive(true);
     }
 
     // Called from button Inspector - OnClick listener
@@ -67,11 +86,50 @@ public class ARInteraction : MonoBehaviour
         // Show selected text in green color
         partsTexts[index].color = Color.green;
 
+        // Reset all part indicator
         foreach (GameObject indicator in partIndicators)
         {
             indicator.SetActive(false);
         }
 
+        // Play transistion animation to show the particular part
+        StartCoroutine(ShowPartWithAnimation(index));
+    }
+
+    bool isMenuDropDown = true;
+    public void OnDropDownButtonClick()
+    {
+        isMenuDropDown = !isMenuDropDown;
+
+        menuDropDownButton.image.sprite = isMenuDropDown ? sprite_dropUp : sprite_dropDown;
+
+        interactScrollView.SetActive(isMenuDropDown);
+    }
+
+    IEnumerator ShowPartWithAnimation(int index)
+    {
+        switch ((DieselGenerator_Part_Type)index)
+        {
+            case DieselGenerator_Part_Type.LCD_Panel:
+                break;
+            case DieselGenerator_Part_Type.Main_Volt_Circ_Board:
+                break;
+            case DieselGenerator_Part_Type.Generator_Fans:
+                break;
+            case DieselGenerator_Part_Type.BU_Power_Supp_Unit:
+                break;
+            case DieselGenerator_Part_Type.Capacitor_Circ_Board:
+                break;
+            case DieselGenerator_Part_Type.Logic_Board:
+                break;
+            case DieselGenerator_Part_Type.Lithium_Fuel_Cells:
+                break;
+        }
+
+        yield return new WaitForSeconds(1);
+
+        // Show particular part indicator
         partIndicators[index].SetActive(true);
     }
+
 }
