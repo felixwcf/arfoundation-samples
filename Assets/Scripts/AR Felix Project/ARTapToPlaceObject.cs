@@ -22,9 +22,10 @@ public class ARTapToPlaceObject : MonoBehaviour
     bool placementPoseIsValid = false;
 
     bool hasAlreadyPlaceObject;
-    float rotationSpeedFactor = 0.4f;
 
-    GameObject currDispModel;
+    public static GameObject currDispModel;
+
+    public ARInteraction arInteraction;
 
     private Touch touch;
 
@@ -43,33 +44,19 @@ public class ARTapToPlaceObject : MonoBehaviour
         {
             PlaceObject();
         }
-        else if(hasAlreadyPlaceObject)
-        {
-            if(txtTest) txtTest.text = "Waiting for gesture...";
-
-            if (Input.touchCount > 0)
-            {
-                if (Input.GetTouch(0).phase == TouchPhase.Moved)
-                {
-                    if (txtTest) txtTest.text = "Rotating object...";
-
-                    touch = Input.GetTouch(0);
-
-                    var rotationY = Quaternion.Euler(0, -touch.deltaPosition.x * rotationSpeedFactor, 0);
-                    currDispModel.transform.rotation = rotationY * currDispModel.transform.rotation;
-                }
-            }
-        }
     }
 
     private void PlaceObject()
     {
         currDispModel = Instantiate(DieselGeneratorModel, PlacementPose.position, PlacementPose.rotation);
+        arInteraction.UpdateARDetailReady(currDispModel);
 
         hasAlreadyPlaceObject = true;
 
         // turn off placement indicator after object has been displayed
         placementIndicator.SetActive(false);
+
+        StartCoroutine(DestroySelf());
     }
 
     private void UpdatePlacementIndicator()
@@ -99,7 +86,13 @@ public class ARTapToPlaceObject : MonoBehaviour
             var cameraForward = Camera.main.transform.forward;
             var cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z).normalized;
             PlacementPose.rotation = Quaternion.LookRotation(cameraBearing);
-
         }
+    }
+
+    IEnumerator DestroySelf()
+    {
+        yield return new WaitForSeconds(2);
+
+        Destroy(gameObject);
     }
 }
