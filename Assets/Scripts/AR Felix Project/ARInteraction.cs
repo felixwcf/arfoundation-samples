@@ -46,11 +46,10 @@ public class ARInteraction : MonoBehaviour
         sprite_dropUp = Resources.Load<Sprite>("drop-up-menu");
 
         // Test script. Comment this one when it's not being used
-        //if (dieselGenerator)
-        //{
-        //    mainARObject = dieselGenerator;
-        //    interactScrollView.SetActive(true);
-        //}
+        if (dieselGenerator)
+        {
+            UpdateARDetailReady(dieselGenerator);
+        }
     }
 
     // Update is called once per frame
