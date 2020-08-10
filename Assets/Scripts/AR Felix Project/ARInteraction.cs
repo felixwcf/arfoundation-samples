@@ -19,6 +19,8 @@ public class ARInteraction : MonoBehaviour
         Lithium_Fuel_Cells
     }
 
+    public static bool canRotateMainObject;
+
     // Test Object
     [SerializeField] GameObject dieselGenerator;            // The 3D model.
 
@@ -39,11 +41,14 @@ public class ARInteraction : MonoBehaviour
     Sprite sprite_dropDown;
     Sprite sprite_dropUp;
 
+
     // Start is called before the first frame update
     void Start()
     {
         sprite_dropDown = Resources.Load<Sprite>("drop-down-menu");
         sprite_dropUp = Resources.Load<Sprite>("drop-up-menu");
+
+        SetCanRotateMainObject(true);
 
         // Test script. Comment this one when it's not being used
         if (dieselGenerator)
@@ -55,7 +60,7 @@ public class ARInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mainARObject)
+        if (mainARObject && canRotateMainObject)
         {
             if (Input.touchCount > 0)
             {
@@ -118,6 +123,11 @@ public class ARInteraction : MonoBehaviour
 
         // Play transistion animation to show the particular part
         StartCoroutine(ShowPartWithAnimation(index));
+    }
+
+    public void SetCanRotateMainObject(bool canRotate)
+    {
+        canRotateMainObject = canRotate;
     }
 
     bool isMenuDropDown = true;
