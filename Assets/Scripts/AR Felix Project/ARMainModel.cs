@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 public class ARMainModel : MonoBehaviour
 {
+    ARInteraction arInteraction;
+
     [SerializeField] GameObject dieselGenerator;
     [SerializeField] GameObject voltageCasingObj;
     [SerializeField] GameObject boardBGObj;
@@ -13,7 +17,7 @@ public class ARMainModel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        arInteraction = GameObject.FindGameObjectWithTag("ARInteraction").GetComponent<ARInteraction>();
     }
 
     // Update is called once per frame
@@ -37,6 +41,40 @@ public class ARMainModel : MonoBehaviour
     // Temporary fade away
     public void dimissObject()
     {
+        arInteraction.SetShowSelectedIndicator(false);
 
+        //transform.DOLocalMove(new Vector3(1,2,3),1,false);
+        //transform.DOLocalRotate(new Vector3(0, -90, 20), 1, RotateMode.Fast);
+
+        Material _generator_mat = dieselGenerator.GetComponent<MeshRenderer>().material;
+        ToFadeMode(_generator_mat);
+
+        dieselGenerator.GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.1f);
+
+
+        //dieselGenerator.colo
+    }
+
+    void ToFadeMode(Material material)
+    {
+        material.SetOverrideTag("RenderType", "Transparent");
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetInt("_ZWrite", 0);
+        material.DisableKeyword("_ALPHATEST_ON");
+        material.EnableKeyword("_ALPHABLEND_ON");
+        material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        material.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+    }
+
+    void ToOpaqueMode(Material material)
+    {
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.One);
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.Zero);
+        material.SetInt("_ZWrite", 1);
+        material.DisableKeyword("_ALPHATEST_ON");
+        material.DisableKeyword("_ALPHABLEND_ON");
+        material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        material.renderQueue = -1;
     }
 }

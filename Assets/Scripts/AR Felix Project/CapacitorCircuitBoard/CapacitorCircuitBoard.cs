@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class CapacitorCircuitBoard : MonoBehaviour
 {
+    ARMainModel arMainModel;
+
     bool canAnalyseBoard;       // Ready for user to tap the board.
 
     // Start is called before the first frame update
     void Start()
     {
+        arMainModel = GameObject.FindGameObjectWithTag("ARMainModel").GetComponent<ARMainModel>();
 
     }
 
@@ -66,7 +69,10 @@ public class CapacitorCircuitBoard : MonoBehaviour
 
     void AnalyseCircuitBoard()
     {
-        // TODO: analyse baord
+        // TODO: analyse board
+        Debug.Log("ALoha~!");
+
+        arMainModel.dimissObject();
 
     }
 }
