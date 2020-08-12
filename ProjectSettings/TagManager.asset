@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - ARInteraction
+  - CapacitorCircuitBoard
+  - ARMainModel
   layers:
   - Default
   - TransparentFX

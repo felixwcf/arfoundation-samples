@@ -32,7 +32,6 @@ public class SwipeObjectGesture : MonoBehaviour
                     case TouchPhase.Moved:
                         var rotationY = Quaternion.Euler(0, -touch.deltaPosition.x * rotationSpeedFactor, 0);
                         targettedObject.transform.rotation = rotationY * targettedObject.transform.rotation;
-
                         break;
                 }
             }

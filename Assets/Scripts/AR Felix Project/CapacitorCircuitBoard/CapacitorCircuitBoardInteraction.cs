@@ -8,14 +8,15 @@ using DG.Tweening;
 public class CapacitorCircuitBoardInteraction : MonoBehaviour
 {
     ARInteraction arInteraction;
+    CapacitorCircuitBoard capacitorBoard;
+    GameObject indicatorObj;
 
     [SerializeField] GameObject dieselGenerator;
     [SerializeField] GameObject voltageCasingObj;
-    [SerializeField] Button btnStopInteraction;
+    [SerializeField] GameObject boardBGObj;
 
     bool hasOpenedCasing;
     bool hasViewedCapacitorBoard;
-    bool canBoardKeepLookingAtCam;
 
     // Start is called before the first frame update
     void Start()
@@ -24,18 +25,11 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         //transform.LookAt(Camera.main.transform.position, -Vector3.up);
 
         arInteraction = GameObject.FindGameObjectWithTag("ARInteraction").GetComponent<ARInteraction>();
+        capacitorBoard = GameObject.FindGameObjectWithTag("CapacitorCircuitBoard").GetComponent<CapacitorCircuitBoard>();
     }
 
     void Update()
     {
-        if(canBoardKeepLookingAtCam)
-        {
-            Vector3 relativePos = Camera.main.transform.position - dieselGenerator.transform.position;
-
-            // the second argument, upwards, defaults to Vector3.up
-            Quaternion rotation = Quaternion.LookRotation(-relativePos, Vector3.up); // Vector3.up
-            dieselGenerator.transform.rotation = Quaternion.Slerp(dieselGenerator.transform.rotation, rotation, Time.deltaTime * 1);
-        }
     }
 
     public void StopPartInteractionButtonDidClick()
@@ -84,8 +78,13 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
             yield return new WaitForSeconds(.6f);
         }
 
-        //dieselGenerator.transform.DOLocalMove(new Vector3(0, 1f, -2), .6f, false);
-        canBoardKeepLookingAtCam = true;
+        //canBoardKeepLookingAtCam = true;
+        ARMainModel mainModel = GameObject.FindGameObjectWithTag("ARMainModel").GetComponent<ARMainModel>();
+        mainModel.SetLookAtCamera(true);
+
+        yield return new WaitForSeconds(1);
+
+        capacitorBoard.SetCanStartAnalyseBoard(true);
 
     }
 }

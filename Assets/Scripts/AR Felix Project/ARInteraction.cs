@@ -51,7 +51,7 @@ public class ARInteraction : MonoBehaviour
         SetCanRotateMainObject(true);
 
         // Test script. Comment this one when it's not being used
-        if (dieselGenerator)
+        if (dieselGenerator.activeSelf)
         {
             UpdateARDetailReady(dieselGenerator);
         }
@@ -104,6 +104,7 @@ public class ARInteraction : MonoBehaviour
     }
 
     // Called from button Inspector - OnClick listener
+    int selectedIndicator;
     public void OnPartButtonClick(int index)
     {
         // Reset all the selection color
@@ -114,6 +115,7 @@ public class ARInteraction : MonoBehaviour
 
         // Show selected text in green color
         partsTexts[index].color = Color.green;
+        selectedIndicator = index;
 
         // Reset all part indicator
         foreach (GameObject indicator in partIndicators)
@@ -128,6 +130,11 @@ public class ARInteraction : MonoBehaviour
     public void SetCanRotateMainObject(bool canRotate)
     {
         canRotateMainObject = canRotate;
+    }
+
+    public void SetShowSelectedIndicator(bool show)
+    {
+        partIndicators[selectedIndicator].SetActive(show);       
     }
 
     bool isMenuDropDown = true;
