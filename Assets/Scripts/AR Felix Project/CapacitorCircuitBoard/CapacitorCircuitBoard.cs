@@ -74,5 +74,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
 
         arMainModel.dimissObject();
 
+
+
     }
 }

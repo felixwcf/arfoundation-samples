@@ -29,7 +29,9 @@ public class ARMainModel : MonoBehaviour
 
             // the second argument, upwards, defaults to Vector3.up
             Quaternion rotation = Quaternion.LookRotation(-relativePos, Vector3.up); // Vector3.up
-            transform.rotation = rotation;
+            Quaternion q = rotation;
+            q.eulerAngles = new Vector3(q.eulerAngles.x, q.eulerAngles.y, 0);
+            transform.rotation = q;
         }
     }
 
@@ -46,10 +48,15 @@ public class ARMainModel : MonoBehaviour
         //transform.DOLocalMove(new Vector3(1,2,3),1,false);
         //transform.DOLocalRotate(new Vector3(0, -90, 20), 1, RotateMode.Fast);
 
-        Material _generator_mat = dieselGenerator.GetComponent<MeshRenderer>().material;
-        ToFadeMode(_generator_mat);
+        //Material _generator_mat = dieselGenerator.GetComponent<MeshRenderer>().material;
+        //ToFadeMode(_generator_mat);
 
-        dieselGenerator.GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.1f);
+        //dieselGenerator.GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.1f);
+
+        //dieselGenerator.GetComponent<MeshRenderer>().material.DOFade(0, 2);
+
+        //dieselGenerator.GetComponent<MeshRenderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 0.1f);
+
 
 
         //dieselGenerator.colo

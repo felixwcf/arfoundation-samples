@@ -45,7 +45,7 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         if (!hasOpenedCasing)
         {
             hasOpenedCasing = true;
-            StartCoroutine(OpenCasing());
+            StartCoroutine(OpenCasing(true));
         }
         else if(!hasViewedCapacitorBoard)
         {
@@ -54,7 +54,7 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         }
     }
 
-    IEnumerator OpenCasing()
+    IEnumerator OpenCasing(bool _open)
     {
         if (dieselGenerator.transform.position != Vector3.zero)
         {
@@ -68,19 +68,18 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
 
     IEnumerator ViewCapacitorBoard()
     {
-        arInteraction.SetCanRotateMainObject(false);
+        //arInteraction.SetCanRotateMainObject(false);
 
-        dieselGenerator.transform.SetParent(Camera.main.transform);
+        //dieselGenerator.transform.SetParent(Camera.main.transform);
 
-        if (dieselGenerator.transform.localPosition != Vector3.zero)
-        {
-            dieselGenerator.transform.DOLocalRotate(new Vector3(0, 0, 0), .6f);
-            yield return new WaitForSeconds(.6f);
-        }
+        //if (dieselGenerator.transform.localPosition != Vector3.zero)
+        //{
+        //    dieselGenerator.transform.DOLocalRotate(new Vector3(0, 0, 0), .6f);
+        //    yield return new WaitForSeconds(.6f);
+        //}
 
-        //canBoardKeepLookingAtCam = true;
-        ARMainModel mainModel = GameObject.FindGameObjectWithTag("ARMainModel").GetComponent<ARMainModel>();
-        mainModel.SetLookAtCamera(true);
+        //ARMainModel mainModel = GameObject.FindGameObjectWithTag("ARMainModel").GetComponent<ARMainModel>();
+        //mainModel.SetLookAtCamera(true);
 
         yield return new WaitForSeconds(1);
 
