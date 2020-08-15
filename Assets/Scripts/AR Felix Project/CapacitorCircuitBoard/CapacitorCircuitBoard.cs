@@ -2,9 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
+using cakeslice;
+
 public class CapacitorCircuitBoard : MonoBehaviour
 {
+    enum AnalyseBoardStepType
+    {
+        ShowScrewsIndicators,
+
+    }
+
+
     ARMainModel arMainModel;
+    [SerializeField] Outline growOutline;
+
+    [SerializeField] GameObject[] screwIndicators;
 
     bool canAnalyseBoard;       // Ready for user to tap the board.
 
@@ -12,7 +26,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
     void Start()
     {
         arMainModel = GameObject.FindGameObjectWithTag("ARMainModel").GetComponent<ARMainModel>();
-
+        growOutline.enabled = false;
     }
 
     void Update()
@@ -35,7 +49,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
                             {
                                 if (hits[i].collider.CompareTag("CapacitorCircuitBoard"))
                                 {
-                                    AnalyseCircuitBoard();
+                                    StartCoroutine(AnalyseCircuitBoard(AnalyseBoardStepType.ShowScrewsIndicators));
                                 }
                             }
                         }
@@ -55,7 +69,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
                 {
                     if (hits[i].collider.CompareTag("CapacitorCircuitBoard"))
                     {
-                        AnalyseCircuitBoard();
+                        StartCoroutine(AnalyseCircuitBoard(AnalyseBoardStepType.ShowScrewsIndicators));
                     }
                 }
             }
@@ -67,14 +81,27 @@ public class CapacitorCircuitBoard : MonoBehaviour
         canAnalyseBoard = _can;
     }
 
-    void AnalyseCircuitBoard()
+    IEnumerator AnalyseCircuitBoard(AnalyseBoardStepType stepType)
     {
         // TODO: analyse board
         Debug.Log("ALoha~!");
 
-        arMainModel.dimissObject();
+        switch (stepType)
+        {
+            case AnalyseBoardStepType.ShowScrewsIndicators:
 
+                for (int i = 0; i< screwIndicators.Length;i++)
+                {
+                    screwIndicators[i].SetActive(true);
+                }
 
+                //transform.DOLocalMove(new Vector3(-0.45f, 0.606f, -1.039f), 1, false);
+                break;
+        }
+
+        // arMainModel.dimissObject();
+        
+        yield return new WaitForSeconds(0.4f);
 
     }
 }

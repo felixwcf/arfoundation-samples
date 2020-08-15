@@ -13,6 +13,9 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
 
     [SerializeField] GameObject dieselGenerator;
     [SerializeField] GameObject voltageCasingObj;
+    [SerializeField] GameObject voltCasingFrontObj;
+    [SerializeField] GameObject voltCasingBackObj;
+
     [SerializeField] GameObject boardBGObj;
 
     bool hasOpenedCasing;
@@ -64,6 +67,15 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
 
         voltageCasingObj.transform.DOLocalRotate(new Vector3(0, 98, 0), 1);
         dieselGenerator.transform.DOLocalRotate(new Vector3(0, 0, 0), .6f);
+
+        Material _volt_case_out_mat = voltCasingFrontObj.GetComponent<MeshRenderer>().material;
+        Material _volt_case_in_mat = voltCasingBackObj.GetComponent<MeshRenderer>().material;
+        ARSingleton.Instance.ToFadeMode(_volt_case_out_mat);
+        ARSingleton.Instance.ToFadeMode(_volt_case_in_mat);
+        voltCasingFrontObj.GetComponent<MeshRenderer>().material.DOFade(0, 3);
+        voltCasingBackObj.GetComponent<MeshRenderer>().material.DOFade(0, 3);
+
+        //ToFadeMode(_generator_mat);
     }
 
     IEnumerator ViewCapacitorBoard()
@@ -84,6 +96,5 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         capacitorBoard.SetCanStartAnalyseBoard(true);
-
     }
 }
