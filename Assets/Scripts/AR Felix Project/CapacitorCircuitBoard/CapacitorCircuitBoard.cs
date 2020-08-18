@@ -18,6 +18,8 @@ public class CapacitorCircuitBoard : MonoBehaviour
     [SerializeField] Outline growOutline;
 
     [SerializeField] GameObject[] screwIndicators;
+    [SerializeField] GameObject[] screwTypeIndicator;
+    [SerializeField] GameObject[] screwLineIndicator;
 
     bool canAnalyseBoard;       // Ready for user to tap the board.
 
@@ -99,6 +101,9 @@ public class CapacitorCircuitBoard : MonoBehaviour
                 for (int i = 0; i< screwIndicators.Length;i++)
                 {
                     screwIndicators[i].SetActive(true);
+                    screwIndicators[i].GetComponent<MeshRenderer>().material.DOFade(1, 0.1f).SetDelay(i/1.8f);
+                    screwLineIndicator[i].SetActive(true);
+                    screwTypeIndicator[i].SetActive(true);
                 }
 
                 //transform.DOLocalMove(new Vector3(-0.45f, 0.606f, -1.039f), 1, false);
@@ -108,7 +113,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
         // Play Unscrew Tutorial Video
         ARVideoPlayer.Instance.PlayTutorialVideo(VideoCode.UnscrewCapacitorBoard);
 
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.1f);
 
     }
 }
