@@ -24,11 +24,11 @@ public class IndicatorLine : MonoBehaviour
 
     void Update()
     {
-        if(counter < dist)
-        {
+        //if(counter < dist)
+        //{
             //counter += .1f / lineDrawSpeed;
 
-            counter += 0.1f / lineDrawSpeed;
+            counter += 0.01f / lineDrawSpeed;
             lineRenderer.SetPosition(1, Vector3.Lerp(origin.position, destination.position, counter));
 
 
@@ -39,7 +39,7 @@ public class IndicatorLine : MonoBehaviour
             //Vector3 pointALongLine = x * Vector3.Normalize(pointB - pointA) + pointB;
 
             //lineRenderer.SetPosition(1, pointALongLine);
-        }
+        //}
     }
 
 
