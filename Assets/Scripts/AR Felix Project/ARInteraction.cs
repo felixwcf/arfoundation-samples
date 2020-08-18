@@ -127,6 +127,14 @@ public class ARInteraction : MonoBehaviour
         StartCoroutine(ShowPartWithAnimation(index));
     }
 
+    public void SetCanShowPartsDropDownList(bool canShow)
+    {
+        interactScrollView.SetActive(canShow);
+        menuDropDownButton.gameObject.SetActive(canShow);
+
+        SetShowSelectedIndicator(canShow);
+    }
+
     public void SetCanRotateMainObject(bool canRotate)
     {
         canRotateMainObject = canRotate;

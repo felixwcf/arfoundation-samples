@@ -53,7 +53,7 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         else if(!hasViewedCapacitorBoard)
         {
             hasViewedCapacitorBoard = true;
-            StartCoroutine(ViewCapacitorBoard());
+            ViewCapacitorBoard();
         }
     }
 
@@ -72,13 +72,13 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         Material _volt_case_in_mat = voltCasingBackObj.GetComponent<MeshRenderer>().material;
         ARSingleton.Instance.ToFadeMode(_volt_case_out_mat);
         ARSingleton.Instance.ToFadeMode(_volt_case_in_mat);
-        voltCasingFrontObj.GetComponent<MeshRenderer>().material.DOFade(0, 3);
-        voltCasingBackObj.GetComponent<MeshRenderer>().material.DOFade(0, 3);
+        voltCasingFrontObj.GetComponent<MeshRenderer>().material.DOFade(0, 2);
+        voltCasingBackObj.GetComponent<MeshRenderer>().material.DOFade(0, 2);
 
         //ToFadeMode(_generator_mat);
     }
 
-    IEnumerator ViewCapacitorBoard()
+    void ViewCapacitorBoard()
     {
         //arInteraction.SetCanRotateMainObject(false);
 
@@ -93,7 +93,6 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         //ARMainModel mainModel = GameObject.FindGameObjectWithTag("ARMainModel").GetComponent<ARMainModel>();
         //mainModel.SetLookAtCamera(true);
 
-        yield return new WaitForSeconds(1);
 
         capacitorBoard.SetCanStartAnalyseBoard(true);
     }

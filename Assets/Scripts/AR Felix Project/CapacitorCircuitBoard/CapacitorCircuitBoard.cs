@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using DG.Tweening;
-
+using AREnums;
 using cakeslice;
 
 public class CapacitorCircuitBoard : MonoBehaviour
@@ -13,7 +13,6 @@ public class CapacitorCircuitBoard : MonoBehaviour
         ShowScrewsIndicators,
 
     }
-
 
     ARMainModel arMainModel;
     [SerializeField] Outline growOutline;
@@ -83,9 +82,16 @@ public class CapacitorCircuitBoard : MonoBehaviour
 
     IEnumerator AnalyseCircuitBoard(AnalyseBoardStepType stepType)
     {
-        // TODO: analyse board
         Debug.Log("ALoha~!");
 
+        // Show Tutorial Message
+        TutorialMessageCenter.ShowTitleMessage(TutorialMessageCode.Msg_UnscrewCapacitorBoard);
+
+        // Dismiss selection list UI
+        ARInteraction arInteraction = GameObject.FindGameObjectWithTag("ARInteraction").GetComponent<ARInteraction>();
+        arInteraction.SetCanShowPartsDropDownList(false);
+
+        // Show Screws Indicator
         switch (stepType)
         {
             case AnalyseBoardStepType.ShowScrewsIndicators:
@@ -99,8 +105,9 @@ public class CapacitorCircuitBoard : MonoBehaviour
                 break;
         }
 
-        // arMainModel.dimissObject();
-        
+        // Play Unscrew Tutorial Video
+        ARVideoPlayer.Instance.PlayTutorialVideo(VideoCode.UnscrewCapacitorBoard);
+
         yield return new WaitForSeconds(0.4f);
 
     }
