@@ -6,6 +6,8 @@ using DG.Tweening;
 using AREnums;
 using cakeslice;
 
+//NotificationCenter.DefaultCenter().AddObserver(this, PersistKeys.ON_GAMEPLAY_PAUSE);
+
 public class CapacitorCircuitBoard : MonoBehaviour
 {
     enum AnalyseBoardStepType
@@ -101,9 +103,10 @@ public class CapacitorCircuitBoard : MonoBehaviour
                 for (int i = 0; i< screwIndicators.Length;i++)
                 {
                     screwIndicators[i].SetActive(true);
-                    screwIndicators[i].GetComponent<MeshRenderer>().material.DOFade(1, 0.1f).SetDelay(i/1.8f);
+                    screwIndicators[i].GetComponent<MeshRenderer>().material.DOFade(1, 0.1f);
                     screwLineIndicator[i].SetActive(true);
                     screwTypeIndicator[i].SetActive(true);
+                    yield return new WaitForSeconds(0.3f);
                 }
 
                 //transform.DOLocalMove(new Vector3(-0.45f, 0.606f, -1.039f), 1, false);
