@@ -3569,7 +3569,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a5fa1f49f7cedf340a26b558790efcf2, type: 2}
+  - {fileID: 2100000, guid: 2342ac102e948445291b29eb372f3ca3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4119,7 +4119,6 @@ MonoBehaviour:
   - {fileID: 4813686040162271360}
   - {fileID: 4813686040178132776}
   - {fileID: 4813686041963866580}
-  screwDriverScrollView: {fileID: 0}
 --- !u!65 &6254177791644368844
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4287,7 +4286,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a5fa1f49f7cedf340a26b558790efcf2, type: 2}
+  - {fileID: 2100000, guid: 2342ac102e948445291b29eb372f3ca3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4414,7 +4413,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a5fa1f49f7cedf340a26b558790efcf2, type: 2}
+  - {fileID: 2100000, guid: 2342ac102e948445291b29eb372f3ca3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

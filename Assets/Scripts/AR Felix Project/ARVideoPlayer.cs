@@ -22,6 +22,8 @@ public class ARVideoPlayer : MonoBehaviour
         {
             Instance = this;
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
@@ -32,12 +34,20 @@ public class ARVideoPlayer : MonoBehaviour
 
     public void PlayTutorialVideo(VideoCode code)
     {
+        //        videoPanel.SetActive(true);
+
+        //videoPlayer = Camera.main.gameObject.AddComponent<VideoPlayer>();
+        //videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+        //videoPlayer.targetTexture = Resources.Load("VideoRenderTexture") as UnityEngine.RenderTexture;
+
+
         videoPanel.SetActive(true);
 
         switch (code)
         {
             case VideoCode.UnscrewCapacitorBoard:
                 videoPlayer.clip = Resources.Load("Videos/board_unscrew_clip") as VideoClip;
+                videoPlayer.isLooping = true;
                 StartCoroutine(PlayVideoOnDelay());
                 break;
         }
@@ -45,8 +55,8 @@ public class ARVideoPlayer : MonoBehaviour
 
     IEnumerator PlayVideoOnDelay()
     {
-        videoPanel.GetComponent<RawImage>().DOColor(new Color(1, 1, 1, 1), 1.5f);
-        yield return new WaitForSeconds(1.5f);
+        //videoPanel.GetComponent<RawImage>().DOColor(new Color(1, 1, 1, 1), 1.5f);
+        yield return new WaitForSeconds(1f);
         videoPlayer.Play();
     }
 

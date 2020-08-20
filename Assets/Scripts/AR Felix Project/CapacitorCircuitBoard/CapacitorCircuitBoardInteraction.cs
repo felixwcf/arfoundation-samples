@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-
 public class CapacitorCircuitBoardInteraction : MonoBehaviour
 {
     ARInteraction arInteraction;
@@ -31,8 +30,16 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
 
     }
 
+    //bool canFadeCasing;
+
     void Update()
     {
+
+        //if(canFadeCasing)
+        //{
+        //    voltCasingFrontObj.GetComponent<MeshRenderer>().material.color -= new Color(0, 0, 0, .01f);
+        //    voltCasingBackObj.GetComponent<MeshRenderer>().material.color -= new Color(0, 0, 0, .01f);
+        //}
     }
 
     public void StopPartInteractionButtonDidClick()
@@ -72,8 +79,23 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         Material _volt_case_in_mat = voltCasingBackObj.GetComponent<MeshRenderer>().material;
         ARSingleton.Instance.ToFadeMode(_volt_case_out_mat);
         ARSingleton.Instance.ToFadeMode(_volt_case_in_mat);
+
+        //iTween.FadeTo(voltCasingFrontObj, 0 , 2);
+        //iTween.FadeTo(voltCasingBackObj, 0, 2);
+
+        //canFadeCasing = true;
+
+        //yield return new WaitForSeconds(1);
+
+
+
+        //voltCasingFrontObj.GetComponent<MeshRenderer>().material.color -= new Color(0, 0, 0, .85f);
+        //voltCasingBackObj.GetComponent<MeshRenderer>().material.color -= new Color(0, 0, 0, .85f);
+
         voltCasingFrontObj.GetComponent<MeshRenderer>().material.DOFade(0, 2);
         voltCasingBackObj.GetComponent<MeshRenderer>().material.DOFade(0, 2);
+
+
 
         //ToFadeMode(_generator_mat);
     }

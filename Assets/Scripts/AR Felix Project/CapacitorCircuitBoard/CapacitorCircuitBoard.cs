@@ -112,8 +112,12 @@ public class CapacitorCircuitBoard : MonoBehaviour
         ARInteraction arInteraction = GameObject.FindGameObjectWithTag("ARInteraction").GetComponent<ARInteraction>();
         arInteraction.SetCanShowPartsDropDownList(false);
 
-        screwDriverScrollView = Instantiate(Resources.Load("ScrewdriversScrollView")) as GameObject;
-        screwDriverScrollView.transform.parent = GameObject.FindGameObjectWithTag("Canvas").transform;
+        if (!screwDriverScrollView) // Make sure only one instance is instantiated.
+        {
+            screwDriverScrollView = Instantiate(Resources.Load("ScrewdriversScrollView")) as GameObject;
+            screwDriverScrollView.name = "screwDriverScrollView";
+            screwDriverScrollView.transform.parent = GameObject.FindGameObjectWithTag("Canvas").transform;
+        }
 
         // Show Screws Indicator
         switch (stepType)
