@@ -16,4 +16,16 @@ namespace AREnums
         Msg_Machine_code,
         Msg_UnscrewCapacitorBoard
     }
+
+    public enum ScrewType
+    {
+        Slotted_Size_1,
+        Slotted_Size_2,
+        Philips_Size_1,
+        Philips_Size_2,
+        Torx_Size_1,
+        Allen_Size_1,
+        Allen_Size_2
+    }
+
 }

@@ -22,14 +22,30 @@ public class CapacitorCircuitBoard : MonoBehaviour
     [SerializeField] GameObject[] screwIndicators;
     [SerializeField] GameObject[] screwTypeIndicator;
     [SerializeField] GameObject[] screwLineIndicator;
+    [SerializeField] GameObject screwDriverScrollView;
 
     bool canAnalyseBoard;       // Ready for user to tap the board.
+    bool canUnscrewTheBoard;    // When correct screwdriver is selected.
 
     // Start is called before the first frame update
     void Start()
     {
         arMainModel = GameObject.FindGameObjectWithTag("ARMainModel").GetComponent<ARMainModel>();
+
+        // TODO: select screwdriver and tap on screw indicator to unscrew the board
+        NotificationCenter.DefaultCenter().AddObserver(this, "OnCorrectScrewDriverSelected");
+
         growOutline.enabled = false;
+    }
+
+    private void OnDisable()
+    {
+        NotificationCenter.DefaultCenter().RemoveObserver(this, "OnCorrectScrewDriverSelected");
+    }
+
+    private void OnDestroy()
+    {
+        NotificationCenter.DefaultCenter().RemoveObserver(this, "OnCorrectScrewDriverSelected");
     }
 
     void Update()
@@ -95,6 +111,8 @@ public class CapacitorCircuitBoard : MonoBehaviour
         ARInteraction arInteraction = GameObject.FindGameObjectWithTag("ARInteraction").GetComponent<ARInteraction>();
         arInteraction.SetCanShowPartsDropDownList(false);
 
+        screwDriverScrollView.SetActive(true);
+
         // Show Screws Indicator
         switch (stepType)
         {
@@ -118,5 +136,22 @@ public class CapacitorCircuitBoard : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
+    }
+
+    // ---- Listeners / Observers ---------------------------------------------
+    // Do not remove this functions.
+    void OnCorrectScrewDriverSelected(Notification notification)
+    {
+        if (notification.data != null)
+        {
+            if((int)notification.data == 5)
+            {
+                canUnscrewTheBoard = true;
+            }
+            else
+            {
+                canUnscrewTheBoard = false;
+            }
+        }
     }
 }

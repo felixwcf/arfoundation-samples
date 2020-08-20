@@ -157,6 +157,9 @@ public class ARInteraction : MonoBehaviour
 
     IEnumerator ShowPartWithAnimation(int index)
     {
+        Debug.Log("index:" + index);
+        Debug.Log("mainARObject:" + mainARObject);
+
         switch ((DieselGenerator_Part_Type)index)
         {
             case DieselGenerator_Part_Type.LCD_Panel:
@@ -184,8 +187,12 @@ public class ARInteraction : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
+        Debug.Log("hello???");
+
         // Show particular part indicator
         partIndicators[index].SetActive(true);
+
+        Debug.Log("partIndicators???" + partIndicators[index]);
     }
 
 }

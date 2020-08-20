@@ -561,7 +561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1443096246351616124
 Transform:
   m_ObjectHideFlags: 0
@@ -651,7 +651,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dieselGenerator: {fileID: 2123381938958605787}
   voltageCasingObj: {fileID: 1443096245045095941}
-  btnStopInteraction: {fileID: 0}
+  voltCasingFrontObj: {fileID: 0}
+  voltCasingBackObj: {fileID: 0}
+  boardBGObj: {fileID: 0}
 --- !u!1 &1443096246476654449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,7 +1038,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2123381938958605787}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1482,6 +1484,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 926880a8a8e024dc48fe95441eeb34c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  growOutline: {fileID: 0}
+  screwIndicators: []
+  screwTypeIndicator: []
+  screwLineIndicator: []
+  screwDriverScrollView: {fileID: 0}
 --- !u!65 &7477191959773398285
 BoxCollider:
   m_ObjectHideFlags: 0
