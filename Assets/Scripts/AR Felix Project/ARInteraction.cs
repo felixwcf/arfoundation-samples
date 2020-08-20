@@ -51,28 +51,29 @@ public class ARInteraction : MonoBehaviour
         SetCanRotateMainObject(true);
 
         // Test script. Comment this one when it's not being used
-        if (dieselGenerator.activeSelf)
-        {
-            UpdateARDetailReady(dieselGenerator);
-        }
+        //if (dieselGenerator.activeSelf)
+        //{
+        //    UpdateARDetailReady(dieselGenerator);
+        //}
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (mainARObject && canRotateMainObject)
-        {
-            if (Input.touchCount > 0)
-            {
-                if (Input.GetTouch(0).phase == TouchPhase.Moved)
-                {
-                    touch = Input.GetTouch(0);
+        // Swipe and rotate object. Shouldn't be able to do it on UX perspective
+        //if (mainARObject && canRotateMainObject)
+        //{
+        //    if (Input.touchCount > 0)
+        //    {
+        //        if (Input.GetTouch(0).phase == TouchPhase.Moved)
+        //        {
+        //            touch = Input.GetTouch(0);
 
-                    var rotationY = Quaternion.Euler(0, -touch.deltaPosition.x * rotationSpeedFactor, 0);
-                    mainARObject.transform.rotation = rotationY * mainARObject.transform.rotation;
-                }
-            }
-        }
+        //            var rotationY = Quaternion.Euler(0, -touch.deltaPosition.x * rotationSpeedFactor, 0);
+        //            mainARObject.transform.rotation = rotationY * mainARObject.transform.rotation;
+        //        }
+        //    }
+        //}
     }
 
     public void UpdateARDetailReady(GameObject _mainARObject)
@@ -157,9 +158,6 @@ public class ARInteraction : MonoBehaviour
 
     IEnumerator ShowPartWithAnimation(int index)
     {
-        Debug.Log("index:" + index);
-        Debug.Log("mainARObject:" + mainARObject);
-
         switch ((DieselGenerator_Part_Type)index)
         {
             case DieselGenerator_Part_Type.LCD_Panel:
@@ -187,12 +185,8 @@ public class ARInteraction : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        Debug.Log("hello???");
-
         // Show particular part indicator
         partIndicators[index].SetActive(true);
-
-        Debug.Log("partIndicators???" + partIndicators[index]);
     }
 
 }

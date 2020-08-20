@@ -184,11 +184,6 @@ public class NotificationCenter : MonoBehaviour
 		return defaultCenter;
 	}
 
-	public void OnDestroy()
-	{
-		Destroy(gameObject);
-	}
-
 	// Our hashtable containing all the notifications.  Each notification in the hash table is an ArrayList that contains all the observers for that notification.
 	Hashtable notifications = new Hashtable();
 
