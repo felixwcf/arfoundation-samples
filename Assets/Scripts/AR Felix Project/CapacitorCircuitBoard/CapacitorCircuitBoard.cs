@@ -22,7 +22,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
     [SerializeField] GameObject[] screwIndicators;
     [SerializeField] GameObject[] screwTypeIndicator;
     [SerializeField] GameObject[] screwLineIndicator;
-    [SerializeField] GameObject screwDriverScrollView;
+    GameObject screwDriverScrollView;
 
     bool canAnalyseBoard;       // Ready for user to tap the board.
     bool canUnscrewTheBoard;    // When correct screwdriver is selected.
@@ -31,6 +31,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
     void Start()
     {
         arMainModel = GameObject.FindGameObjectWithTag("ARMainModel").GetComponent<ARMainModel>();
+
 
         // TODO: select screwdriver and tap on screw indicator to unscrew the board
         NotificationCenter.DefaultCenter().AddObserver(this, "OnCorrectScrewDriverSelected");
@@ -111,7 +112,8 @@ public class CapacitorCircuitBoard : MonoBehaviour
         ARInteraction arInteraction = GameObject.FindGameObjectWithTag("ARInteraction").GetComponent<ARInteraction>();
         arInteraction.SetCanShowPartsDropDownList(false);
 
-        screwDriverScrollView.SetActive(true);
+        screwDriverScrollView = Instantiate(Resources.Load("ScrewdriversScrollView")) as GameObject;
+        screwDriverScrollView.transform.parent = GameObject.FindGameObjectWithTag("Canvas").transform;
 
         // Show Screws Indicator
         switch (stepType)
@@ -144,7 +146,9 @@ public class CapacitorCircuitBoard : MonoBehaviour
     {
         if (notification.data != null)
         {
-            if((int)notification.data == 5)
+            Debug.Log("Selected screwdriver:" + notification.data);
+
+            if ((int)notification.data == 5)
             {
                 canUnscrewTheBoard = true;
             }

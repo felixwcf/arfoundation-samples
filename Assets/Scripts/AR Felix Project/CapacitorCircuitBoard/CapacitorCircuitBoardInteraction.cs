@@ -28,7 +28,7 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         //transform.LookAt(Camera.main.transform.position, -Vector3.up);
 
         arInteraction = GameObject.FindGameObjectWithTag("ARInteraction").GetComponent<ARInteraction>();
-        capacitorBoard = GameObject.FindGameObjectWithTag("CapacitorCircuitBoard").GetComponent<CapacitorCircuitBoard>();
+
     }
 
     void Update()
@@ -50,7 +50,7 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
             hasOpenedCasing = true;
             StartCoroutine(OpenCasing(true));
         }
-        else if(!hasViewedCapacitorBoard)
+        else if(hasOpenedCasing && !hasViewedCapacitorBoard)
         {
             hasViewedCapacitorBoard = true;
             ViewCapacitorBoard();
@@ -93,7 +93,7 @@ public class CapacitorCircuitBoardInteraction : MonoBehaviour
         //ARMainModel mainModel = GameObject.FindGameObjectWithTag("ARMainModel").GetComponent<ARMainModel>();
         //mainModel.SetLookAtCamera(true);
 
-
+        capacitorBoard = GameObject.FindGameObjectWithTag("CapacitorCircuitBoard").GetComponent<CapacitorCircuitBoard>();
         capacitorBoard.SetCanStartAnalyseBoard(true);
     }
 }

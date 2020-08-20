@@ -51,10 +51,10 @@ public class ARInteraction : MonoBehaviour
         SetCanRotateMainObject(true);
 
         // Test script. Comment this one when it's not being used
-        //if (dieselGenerator.activeSelf)
-        //{
-        //    UpdateARDetailReady(dieselGenerator);
-        //}
+        if (dieselGenerator.activeSelf)
+        {
+            UpdateARDetailReady(dieselGenerator);
+        }
     }
 
     // Update is called once per frame

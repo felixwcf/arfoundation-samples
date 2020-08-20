@@ -7,6 +7,8 @@ TagManager:
   - ARInteraction
   - CapacitorCircuitBoard
   - ARMainModel
+  - ScrewdriversScrollView
+  - Canvas
   layers:
   - Default
   - TransparentFX
