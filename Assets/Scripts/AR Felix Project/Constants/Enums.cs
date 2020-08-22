@@ -14,7 +14,8 @@ namespace AREnums
     public enum TutorialMessageCode
     {
         Msg_Machine_code,
-        Msg_UnscrewCapacitorBoard
+        Msg_UnscrewCapacitorBoard,
+        Msg_DoubleClickToDisplayCapacitorBoardInfo
     }
 
     public enum ScrewType

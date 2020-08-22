@@ -25,6 +25,8 @@ public class CapacitorCircuitBoard : MonoBehaviour
     [SerializeField] GameObject buttonDismantleBoard;
     [SerializeField] GameObject buttonDismantleLineIndicator;
 
+    [SerializeField] GameObject buttonReplaceboard;
+
     private GameObject screwDriverScrollView;
     private bool canAnalyseBoard;       // Ready for user to tap the board.
     private bool canUnscrewTheBoard;    // When correct screwdriver is selected.
@@ -39,6 +41,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
         // TODO: select screwdriver and tap on screw indicator to unscrew the board
         NotificationCenter.DefaultCenter().AddObserver(this, "OnCorrectScrewDriverSelected");
         NotificationCenter.DefaultCenter().AddObserver(this, "looseScrewDidTapped");
+        NotificationCenter.DefaultCenter().AddObserver(this, "dismantleBoardDidTapped");
 
         growOutline.enabled = false;
     }
@@ -47,12 +50,14 @@ public class CapacitorCircuitBoard : MonoBehaviour
     {
         NotificationCenter.DefaultCenter().RemoveObserver(this, "OnCorrectScrewDriverSelected");
         NotificationCenter.DefaultCenter().RemoveObserver(this, "looseScrewDidTapped");
+        NotificationCenter.DefaultCenter().RemoveObserver(this, "dismantleBoardDidTapped");
     }
 
     private void OnDestroy()
     {
         NotificationCenter.DefaultCenter().RemoveObserver(this, "OnCorrectScrewDriverSelected");
         NotificationCenter.DefaultCenter().RemoveObserver(this, "looseScrewDidTapped");
+        NotificationCenter.DefaultCenter().RemoveObserver(this, "dismantleBoardDidTapped");
     }
 
     void Update()
@@ -105,12 +110,13 @@ public class CapacitorCircuitBoard : MonoBehaviour
     public void SetCanStartAnalyseBoard(bool _can)
     {
         canAnalyseBoard = _can;
+        TutorialMessageCenter.ShowTitleMessage(TutorialMessageCode.Msg_DoubleClickToDisplayCapacitorBoardInfo);
         growOutline.enabled = true;
     }
 
     IEnumerator AnalyseCircuitBoard(AnalyseBoardStepType stepType)
     {
-        Debug.Log("ALoha~!");
+        Debug.Log("Aloha~!");
 
         // Show Tutorial Message
         TutorialMessageCenter.ShowTitleMessage(TutorialMessageCode.Msg_UnscrewCapacitorBoard);
@@ -152,11 +158,14 @@ public class CapacitorCircuitBoard : MonoBehaviour
 
     IEnumerator ShowAllBoardScrewUnlockedAnimation()
     {
+        ARVideoPlayer.Instance.StopTutorialVideo();
+
+        screwDriverScrollView.SetActive(false);
+
         for (int i = 0; i < screwIndicators.Length; i++)
         {
             screwIndicators[i].SetActive(false);
-            screwIndicators[i].GetComponent<MeshRenderer>().material.DOFade(0, 0.1f);
-            yield return new WaitForSeconds(0.1f);
+            screwIndicators[i].GetComponent<MeshRenderer>().material.DOFade(0, 0.4f);
             screwTypeIndicator[i].SetActive(false);
             screwLineIndicator[i].SetActive(false);
         }
@@ -167,6 +176,8 @@ public class CapacitorCircuitBoard : MonoBehaviour
 
         buttonDismantleBoard.SetActive(true);
         buttonDismantleLineIndicator.SetActive(true);
+
+        hasBoardUnscrewed = true;
     }
 
     // ---- Listeners / Observers ---------------------------------------------
@@ -205,11 +216,15 @@ public class CapacitorCircuitBoard : MonoBehaviour
 
             if (total == 6)
             {
-                hasBoardUnscrewed = true;
-
                 StartCoroutine(ShowAllBoardScrewUnlockedAnimation());
             }
         }
+    }
+
+    void dismantleBoardDidTapped()
+    {
+        buttonDismantleBoard.SetActive(false);
+        buttonReplaceboard.SetActive(true);
     }
 
 }

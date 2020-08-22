@@ -9,6 +9,7 @@ TagManager:
   - ARMainModel
   - ScrewdriversScrollView
   - Canvas
+  - InteractableScrew
   layers:
   - Default
   - TransparentFX

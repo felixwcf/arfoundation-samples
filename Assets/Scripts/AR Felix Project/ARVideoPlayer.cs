@@ -53,6 +53,12 @@ public class ARVideoPlayer : MonoBehaviour
         }
     }
 
+    public void StopTutorialVideo()
+    {
+        videoPlayer.Stop();
+        videoPanel.SetActive(false);
+    }
+
     IEnumerator PlayVideoOnDelay()
     {
         //videoPanel.GetComponent<RawImage>().DOColor(new Color(1, 1, 1, 1), 1.5f);

@@ -31,36 +31,57 @@ public class ScrewInteraction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // --- For Editor use ---
-        List<Touch> touches = InputHelper.GetTouches();
+//        List<Touch> touches = InputHelper.GetTouches();
 
-        if (touches.Count > 0)
-        {
-            foreach (Touch touch in touches)
-            {
-                switch (touch.phase)
-                {
-                    case TouchPhase.Began:
-                        if(canLooseTheScrew)
-                        {
-                            LooseScrew();
-                        }
-                        break;
-                    case TouchPhase.Ended:
-                        break;
-                }
-            }
-        }
+//        // For Editor Keyboard
+
+//#if UNITY_EDITOR
+//        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//        RaycastHit Hit;
+
+//        if (Input.GetMouseButtonDown(0))
+//        {
+//            if (Physics.Raycast(ray, out Hit) && Hit.collider.CompareTag("InteractableScrew"))
+//            {
+//                if (canLooseTheScrew)
+//                {
+//                    LooseScrew();
+//                }
+//            }
+//        }
+//#endif
+
+//        // For Mobile Touch
+//        if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began) && canLooseTheScrew)
+//        {
+//            Ray raycast = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+//            RaycastHit[] hits = Physics.RaycastAll(raycast, 20f);
+//            if (hits.Length > 0)
+//            {
+//                for (int i = 0; i < hits.Length; i++)
+//                {
+//                    if (hits[i].collider.CompareTag("InteractableScrew"))
+//                    {
+//                        LooseScrew();
+//                    }
+//                }
+//            }
+//        }
     }
 
-    private void OnMouseDown() // For mobile use
+    private void OnMouseUp()
     {
-        if(canLooseTheScrew) LooseScrew();
+        if(canLooseTheScrew)
+        {
+            LooseScrew();
+        }
     }
 
     void LooseScrew()
     {
         if (hasAlreadyLoosen) return;
+
+        Debug.Log("wtf? screw index:" + screwIndex);
 
         hasAlreadyLoosen = true;
         gameObject.GetComponent<MeshRenderer>().material = unscrewIndicatorMat;

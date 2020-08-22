@@ -36,6 +36,9 @@ public class TutorialMessageCenter : MonoBehaviour
             case TutorialMessageCode.Msg_UnscrewCapacitorBoard:
                 Instance.tutorialTitle.text = "Unleash all four screws at four corners \nof the board.";
                 break;
+            case TutorialMessageCode.Msg_DoubleClickToDisplayCapacitorBoardInfo:
+                Instance.tutorialTitle.text = "Click the capacitor board to show its info.";
+                break;
         }
     }
 }
