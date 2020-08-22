@@ -13,7 +13,6 @@ public class CapacitorCircuitBoard : MonoBehaviour
     enum AnalyseBoardStepType
     {
         ShowScrewsIndicators,
-
     }
 
     ARMainModel arMainModel;
@@ -22,10 +21,14 @@ public class CapacitorCircuitBoard : MonoBehaviour
     [SerializeField] GameObject[] screwIndicators;
     [SerializeField] GameObject[] screwTypeIndicator;
     [SerializeField] GameObject[] screwLineIndicator;
-    GameObject screwDriverScrollView;
 
-    bool canAnalyseBoard;       // Ready for user to tap the board.
-    bool canUnscrewTheBoard;    // When correct screwdriver is selected.
+    [SerializeField] GameObject buttonDismantleBoard;
+    [SerializeField] GameObject buttonDismantleLineIndicator;
+
+    private GameObject screwDriverScrollView;
+    private bool canAnalyseBoard;       // Ready for user to tap the board.
+    private bool canUnscrewTheBoard;    // When correct screwdriver is selected.
+    private bool hasBoardUnscrewed;       // Board the totally unscrewed;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +38,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
 
         // TODO: select screwdriver and tap on screw indicator to unscrew the board
         NotificationCenter.DefaultCenter().AddObserver(this, "OnCorrectScrewDriverSelected");
+        NotificationCenter.DefaultCenter().AddObserver(this, "looseScrewDidTapped");
 
         growOutline.enabled = false;
     }
@@ -42,11 +46,13 @@ public class CapacitorCircuitBoard : MonoBehaviour
     private void OnDisable()
     {
         NotificationCenter.DefaultCenter().RemoveObserver(this, "OnCorrectScrewDriverSelected");
+        NotificationCenter.DefaultCenter().RemoveObserver(this, "looseScrewDidTapped");
     }
 
     private void OnDestroy()
     {
         NotificationCenter.DefaultCenter().RemoveObserver(this, "OnCorrectScrewDriverSelected");
+        NotificationCenter.DefaultCenter().RemoveObserver(this, "looseScrewDidTapped");
     }
 
     void Update()
@@ -99,6 +105,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
     public void SetCanStartAnalyseBoard(bool _can)
     {
         canAnalyseBoard = _can;
+        growOutline.enabled = true;
     }
 
     IEnumerator AnalyseCircuitBoard(AnalyseBoardStepType stepType)
@@ -127,9 +134,9 @@ public class CapacitorCircuitBoard : MonoBehaviour
                 for (int i = 0; i< screwIndicators.Length;i++)
                 {
                     screwIndicators[i].SetActive(true);
-                    screwIndicators[i].GetComponent<MeshRenderer>().material.DOFade(1, 0.1f);
-                    screwLineIndicator[i].SetActive(true);
+                    screwIndicators[i].GetComponent<MeshRenderer>().material.DOFade(1, 0.4f);
                     screwTypeIndicator[i].SetActive(true);
+                    screwLineIndicator[i].SetActive(true);
                     yield return new WaitForSeconds(0.3f);
                 }
 
@@ -141,7 +148,25 @@ public class CapacitorCircuitBoard : MonoBehaviour
         ARVideoPlayer.Instance.PlayTutorialVideo(VideoCode.UnscrewCapacitorBoard);
 
         yield return new WaitForSeconds(0.1f);
+    }
 
+    IEnumerator ShowAllBoardScrewUnlockedAnimation()
+    {
+        for (int i = 0; i < screwIndicators.Length; i++)
+        {
+            screwIndicators[i].SetActive(false);
+            screwIndicators[i].GetComponent<MeshRenderer>().material.DOFade(0, 0.1f);
+            yield return new WaitForSeconds(0.1f);
+            screwTypeIndicator[i].SetActive(false);
+            screwLineIndicator[i].SetActive(false);
+        }
+
+        yield return new WaitForSeconds(1.2f);
+
+        growOutline.color = 1;
+
+        buttonDismantleBoard.SetActive(true);
+        buttonDismantleLineIndicator.SetActive(true);
     }
 
     // ---- Listeners / Observers ---------------------------------------------
@@ -152,6 +177,7 @@ public class CapacitorCircuitBoard : MonoBehaviour
         {
             Debug.Log("Selected screwdriver:" + notification.data);
 
+            // HARDCODED FOR THIS DEMO
             if ((int)notification.data == 5)
             {
                 canUnscrewTheBoard = true;
@@ -162,4 +188,28 @@ public class CapacitorCircuitBoard : MonoBehaviour
             }
         }
     }
+
+    // hardcoded for the demo LOL: Add index of 0+1+2+3=6. If 6 is detected means all screws are loose.
+    List<int> ScrewIndices = new List<int>();
+    void looseScrewDidTapped(Notification notification)
+    {
+        if(notification.data != null)
+        {
+            ScrewIndices.Add((int)notification.data);
+            int total = 0;
+            // calculate the total of the index of screws! Not the number of screws!
+            for(int i=0; i< ScrewIndices.Count;i++)
+            {
+                total += ScrewIndices[i];
+            }
+
+            if (total == 6)
+            {
+                hasBoardUnscrewed = true;
+
+                StartCoroutine(ShowAllBoardScrewUnlockedAnimation());
+            }
+        }
+    }
+
 }

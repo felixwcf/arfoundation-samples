@@ -1,29 +1,59 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using UnityEngine.UI;
+
 public class MagnifyGlass : MonoBehaviour
 {
     private Camera magnifyCamera;
     private GameObject magnifyBorders;
     private LineRenderer LeftBorder, RightBorder, TopBorder, BottomBorder; // Reference for lines of magnify glass borders
     private float MGOX, MG0Y; // Magnify Glass Origin X and Y position
-    private float MGWidth = Screen.width / 5f, MGHeight = Screen.width / 5f; // Magnify glass width and height
+    private float MGWidth = Screen.width / 2.5f, MGHeight = Screen.width / 2.5f; // Magnify glass width and height
     private Vector3 mousePos;
+
+    private bool isForARDemo;   // Custom made
+    private bool isMagnifyCamReady;
+
+    [SerializeField] Text testText;
 
     void Start()
     {
+        isForARDemo = true; // For this AR demo
         createMagnifyGlass();
     }
     void Update()
     {
-        // Following lines set the camera's pixelRect and camera position at mouse position
-        magnifyCamera.pixelRect = new Rect(Input.mousePosition.x - MGWidth / 2.0f, Input.mousePosition.y - MGHeight / 2.0f, MGWidth, MGHeight);
-        mousePos = getWorldPosition(Input.mousePosition);
-        mousePos.y += 5.7f;
-        magnifyCamera.transform.position = mousePos;
+        if (isMagnifyCamReady)
+        {
+            // Following lines set the camera's pixelRect and camera position at mouse position
+            magnifyCamera.pixelRect = new Rect(Input.mousePosition.x - MGWidth / 2.0f, Input.mousePosition.y - MGHeight / 2.0f, MGWidth, MGHeight);
+            mousePos = getWorldPosition(Input.mousePosition);
 
-        mousePos.z = 0;
-        if(magnifyBorders) magnifyBorders.transform.position = mousePos;
+            if (isForARDemo)
+            {
+                magnifyCamera.transform.rotation = Camera.main.transform.rotation;
+                magnifyCamera.transform.position = Camera.main.transform.position;
+                mousePos.y = Camera.main.transform.position.y + 2.7f;
+                mousePos.x += 0.2f;
+            }
+            else
+            {
+                mousePos.y += 5.7f;
+            }
+
+            magnifyCamera.transform.position = mousePos;
+
+            mousePos.z = 0;
+            if (magnifyBorders) magnifyBorders.transform.position = mousePos;
+
+            // FOR DEBUG PURPOSE
+            //if (magnifyCamera && Camera.main)
+            //{
+            //    Debug.Log("Main: " + Camera.main.transform + " | mousePos:" + magnifyCamera.transform);
+            //    testText.text = "Main:" + Camera.main.transform.position + "|mousePos:" + magnifyCamera.transform.position;
+            //}
+        }
     }
 
     // Following method creates MagnifyGlass
@@ -33,8 +63,11 @@ public class MagnifyGlass : MonoBehaviour
         MGOX = Screen.width / 2f - MGWidth / 2f;
         MG0Y = Screen.height / 2f - MGHeight / 2f;
         magnifyCamera = camera.AddComponent<Camera>();
+        magnifyCamera.nearClipPlane = 0.3f;
+        magnifyCamera.farClipPlane = 100f;
         magnifyCamera.pixelRect = new Rect(MGOX, MG0Y, MGWidth, MGHeight);
         magnifyCamera.transform.position = new Vector3(0, 0, 0);
+        
         if (Camera.main.orthographic)
         {
             magnifyCamera.orthographic = true;
@@ -43,10 +76,17 @@ public class MagnifyGlass : MonoBehaviour
         }
         else
         {
+            if (isForARDemo)
+            {
+                magnifyCamera.transform.position = Camera.main.transform.position;
+                magnifyCamera.transform.rotation = Camera.main.transform.rotation;
+                //magnifyCamera.transform.parent = Camera.main.transform;
+            }
             magnifyCamera.orthographic = false;
             magnifyCamera.fieldOfView = Camera.main.fieldOfView / 10.0f;//3.0f;
         }
 
+        isMagnifyCamReady = true;
     }
 
     // Following method sets border of MagnifyGlass
